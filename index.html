@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#000000"/>
-    <title>盘搜 - 基于TG频道的网盘搜索工具</title>
-    <meta name="description" content="盘搜是一个强大的网盘搜索工具，聚合来自Telegram频道的海量资源，支持115、百度云、阿里云盘等主流网盘。快速、精准地找到您需要的电影、音乐、游戏、学习资料等。">
+    <title>额呜靠肆 - 基于TG频道的网盘搜索工具</title>
+    <meta name="description" content="额呜靠肆是一个强大的网盘搜索工具，基于开源项目盘搜，用于学习，聚合来自Telegram频道的海量资源，支持115、百度云、阿里云盘等主流网盘。快速、精准地找到您需要的电影、音乐、游戏、学习资料等。">
     <meta name="keywords" content="网盘搜索, 阿里云盘, 百度网盘, 115网盘, 迅雷云盘, 夸克网盘, 资源搜索, 盘搜, pansou, Telegram, TG频道">
     <link rel="canonical" href="https://pansou.jkai.de/">
     <link rel="icon" href="/logo.png" type="image/png">
@@ -329,24 +329,10 @@
         }
         
         /* Tab内容区域样式 */
-        #categoryContentContainer {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-            gap: 0.75rem;
-            padding: 1rem;
-        }
-
         #categoryContentContainer .category-item-btn,
         #categoryContentContainer .hot-search-btn {
             transition: all 0.2s ease;
             font-weight: 500;
-            text-align: center;
-            justify-content: center;
-            width: 100%; /* 确保按钮填满网格单元 */
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: block; /* 确保 ellipsis 生效 */
         }
         
         #categoryContentContainer .category-item-btn:hover,
@@ -409,10 +395,9 @@
                 box-shadow: 0 2px 6px rgba(52, 199, 89, 0.2);
             }
 
-            #searchButton, #resetButton {
+            #searchButton {
                 min-height: 44px;
-                padding: 10px 20px !important; /* 使用 !important 确保覆盖行内样式 */
-                flex-shrink: 0; /* 防止按钮被压缩 */
+                padding: 10px 20px;
             }
             
             #backToTopBtn {
@@ -430,24 +415,110 @@
         .search-mode-btn {
             color: #8e8e93;
         }
-        .scroll-container {
+    </style>
+    <style>
+        /* Matrix background (from heike.vue) - namespaced to avoid conflicts */
+        .matrix-bg-wrapper {
+            position: fixed;
+            inset: 0;
+            z-index: 0; /* below page content */
+            pointer-events: none; /* don't block interactions */
+            overflow: hidden;
+            background: #000; /* fallback */
+        }
+
+        /* Ensure main content is above the background */
+        .page-content-above-matrix {
+            position: relative;
+            z-index: 1;
+        }
+
+        .matrix-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: transparent;
             display: flex;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
+            align-items: stretch;
+            justify-content: center;
         }
-        .scroll-container::-webkit-scrollbar {
-            display: none; /* Safari and Chrome */
+
+        .matrix-pattern {
+            position: relative;
+            width: 1000px;
+            height: 100%;
+            flex-shrink: 0;
         }
-        .scroll-item {
-            flex: 0 0 auto;
-            width: 80%; /* 在移动端显示大部分卡片，但不是全部 */
-            margin-right: 1rem;
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            width: 20px;
+            height: 100%;
+            font-size: 16px;
+            line-height: 18px;
+            font-weight: bold;
+            animation: fall linear infinite;
+            white-space: nowrap;
+            left: 0;
         }
-        @media (min-width: 768px) {
-            .scroll-item {
-                width: calc(33.333% - 1rem); /* 在桌面端显示三列 */
-            }
+
+        .matrix-column::before {
+            content: "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(
+              to bottom,
+              #ffffff 0%,
+              #ffffff 5%,
+              #00ff41 10%,
+              #00ff41 20%,
+              #00dd33 30%,
+              #00bb22 40%,
+              #009911 50%,
+              #007700 60%,
+              #005500 70%,
+              #003300 80%,
+              rgba(0, 255, 65, 0.5) 90%,
+              transparent 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            writing-mode: vertical-lr;
+            letter-spacing: 1px;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* A subset of column positioning/delays to avoid huge CSS footprint */
+        .matrix-column:nth-child(1) { left: 0px; animation-delay: -2.5s; animation-duration: 3s; }
+        .matrix-column:nth-child(2) { left: 25px; animation-delay: -3.2s; animation-duration: 4s; }
+        .matrix-column:nth-child(3) { left: 50px; animation-delay: -1.8s; animation-duration: 2.5s; }
+        .matrix-column:nth-child(4) { left: 75px; animation-delay: -2.9s; animation-duration: 3.5s; }
+        .matrix-column:nth-child(5) { left: 100px; animation-delay: -1.5s; animation-duration: 3s; }
+        .matrix-column:nth-child(6) { left: 125px; animation-delay: -3.8s; animation-duration: 4.5s; }
+        .matrix-column:nth-child(7) { left: 150px; animation-delay: -2.1s; animation-duration: 2.8s; }
+        .matrix-column:nth-child(8) { left: 175px; animation-delay: -2.7s; animation-duration: 3.2s; }
+        .matrix-column:nth-child(9) { left: 200px; animation-delay: -3.4s; animation-duration: 3.8s; }
+        .matrix-column:nth-child(10) { left: 225px; animation-delay: -1.9s; animation-duration: 2.7s; }
+
+        .matrix-column:nth-child(odd)::before { content: "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン123456789"; }
+        .matrix-column:nth-child(even)::before { content: "ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポヴァィゥェォャュョッABCDEFGHIJKLMNOPQRSTUVWXYZ"; }
+
+        @keyframes fall {
+            0% { transform: translateY(-10%); opacity: 1; }
+            100% { transform: translateY(200%); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .matrix-column { font-size: 14px; line-height: 16px; width: 18px; }
+        }
+
+        @media (max-width: 480px) {
+            .matrix-column { font-size: 12px; line-height: 14px; width: 15px; }
         }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9067024774549867"
@@ -464,14 +535,56 @@
   gtag('config', 'G-DQW3NHY60Z');
 </script>
 <body class="min-h-screen py-8 px-4 sm:px-8">
-    <div class="max-w-4xl mx-auto">
+    <!-- Matrix animated background (non-interactive) -->
+    <div class="matrix-bg-wrapper" aria-hidden="true">
+        <div class="matrix-container">
+            <div class="matrix-pattern">
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+            </div>
+            <div class="matrix-pattern">
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+            </div>
+            <div class="matrix-pattern">
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+                <div class="matrix-column"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto page-content-above-matrix">
         <!-- 标题区域 -->
         <a href="https://pansou.jkai.de/">
         <div class="text-center mb-10 fade-in">
             <div class="w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <img src="/logo.png" alt="盘搜 Logo" class="w-full h-full object-contain">
             </div>
-            <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-ios-blue to-blue-500 bg-clip-text text-transparent">盘搜</h1>
+            <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-ios-blue to-blue-500 bg-clip-text text-transparent">额呜靠肆</h1>
             <p class="text-ios-gray text-lg">基于TG频道的网盘搜索工具</p>
             
             <!-- 资源集合入口 -->
@@ -485,12 +598,6 @@
             </div>
         </div>
         </a>
-
-        <!-- 公告 -->
-        <div class="ios-card p-4 mb-8 bg-green-50">
-             <p class="text-center text-green-600 font-bold">✅ 搜索服务已恢复正常，可以正常使用.</p>
-        </div>
-
         <!-- 搜索框 -->
         <div class="ios-card p-1 mb-8 search-box" id="searchContainer">
             <div class="flex items-center">
@@ -523,8 +630,8 @@
         </div>
 
         <!-- ADS -->
-        <!-- <script async="async" data-cfasync="false" src="//unhealthyirreparable.com/03202fae5f6b70e21d670c2cffec94c2/invoke.js"></script>
-        <div id="container-03202fae5f6b70e21d670c2cffec94c2"></div> -->
+        <script async="async" data-cfasync="false" src="//unhealthyirreparable.com/03202fae5f6b70e21d670c2cffec94c2/invoke.js"></script>
+        <div id="container-03202fae5f6b70e21d670c2cffec94c2"></div>
 
         <!-- 搜索模式切换 -->
         <!-- 搜索模式切换 -->
@@ -535,9 +642,6 @@
                 <button id="modeDeep" class="search-mode-btn active z-10 py-2 text-center text-sm font-semibold transition-colors duration-300">深度搜索</button>
             </div>
         </div>
-
-        <!-- 随机资源合集展示 -->
-        <div id="randomCollections" class="mt-8 mb-8"></div>
         
         <!-- 分类Tab切换 -->
         <div id="categoryTabsContainer" class="mb-6 px-2 ios-card">
@@ -646,7 +750,6 @@
         const resultsCount = document.getElementById('resultsCount');
         const filterContainer = document.getElementById('filterContainer');
         const sortSelect = document.getElementById('sortSelect');
-        const randomCollectionsEl = document.getElementById('randomCollections');
         
         // 新版搜索模式控件元素
         const modeFastBtn = document.getElementById('modeFast');
@@ -683,23 +786,10 @@
         // 重置按钮事件
         const resetSearch = () => {
             searchInput.value = '';
-            resultsContainer.innerHTML = '';
-            resultsHeader.classList.add('hidden');
-            filterContainer.classList.add('hidden');
+            // 隐藏重置按钮
             resetButton.classList.add('hidden');
-            
-            const categoryTabsContainer = document.getElementById('categoryTabsContainer');
-            if (categoryTabsContainer) {
-                categoryTabsContainer.classList.remove('hidden');
-            }
-            if (randomCollectionsEl) {
-                randomCollectionsEl.style.display = 'block';
-            }
-
-            currentData = null;
-            currentFilter = 'all';
-            isInitialLoad = true;
-            searchInput.focus();
+            // 刷新页面
+            location.reload();
         };
         
         resetButton.addEventListener('click', resetSearch);
@@ -807,7 +897,7 @@
                 if (hotSearches && hotSearches.length > 0) {
                     let html = '';
                     hotSearches.forEach(item => {
-                        html += `<button title="${item.term}" class="text-sm text-ios-blue bg-blue-50 px-3 py-1 rounded-full hover:bg-blue-100 transition-colors hot-search-btn">${item.term}</button>`;
+                        html += `<button class="text-sm text-ios-blue bg-blue-50 px-3 py-1 rounded-full hover:bg-blue-100 transition-colors hot-search-btn">${item.term}</button>`;
                     });
                     container.innerHTML = html;
 
@@ -846,7 +936,7 @@
             if (data.length > 0) {
                 let html = '';
                 data.forEach(item => {
-                    html += `<button title="${item}" class="text-sm text-ios-blue bg-blue-50 px-3 py-1 rounded-full hover:bg-blue-100 transition-colors category-item-btn">${item}</button>`;
+                    html += `<button class="text-sm text-ios-blue bg-blue-50 px-3 py-1 rounded-full hover:bg-blue-100 transition-colors category-item-btn">${item}</button>`;
                 });
                 container.innerHTML = html;
                 
@@ -943,12 +1033,10 @@
             const keyword = searchInput.value.trim();
             if (!keyword || isSearching) return;
 
-            if (randomCollectionsEl) {
-                randomCollectionsEl.style.display = 'none';
-            }
-
-            // 根据新的模式变量确定src参数
-            const src = currentSearchMode === 'deep' ? 'all' : 'tg';
+            // 根据新的模式变量确定插件
+            const fastPlugins = 'pansearch,pan666';
+            const allPlugins = 'pansearch,qupansou,panta,pan666,hunhepan,jikepan';
+            const plugins = currentSearchMode === 'deep' ? allPlugins : fastPlugins;
 
             isInitialLoad = false;
             isSearching = true;
@@ -972,7 +1060,7 @@
                 if (checkResponse.ok) {
                     const checkResult = await checkResponse.json();
                     if (checkResult.isForbidden) {
-                        renderEmptyResults(); // 使用默认的"无结果"提示
+                        renderEmptyResults(); // 使用默认的“无结果”提示
                         return;
                     }
                 }
@@ -984,7 +1072,7 @@
             // 显示加载状态
             showLoading();
             
-            fetch(`https://api.jkai.de/api/search?kw=${encodeURIComponent(keyword)}&src=${src}`)
+            fetch(`https://pansou.252035.xyz/api/search?kw=${encodeURIComponent(keyword)}&plugins=${plugins}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
@@ -1685,44 +1773,6 @@
             if (!isMobile) {
                 mobileAccessBtn.style.display = 'flex';
             }
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!randomCollectionsEl) return;
-
-            fetch('/collections-static/collections.json')
-                .then(response => response.json())
-                .then(data => {
-                    const collections = data.collections;
-                    if (collections && collections.length > 0) {
-                        const randomThree = collections.sort(() => 0.5 - Math.random()).slice(0, 3);
-                        
-                        let html = '<h2 class="text-2xl font-bold text-center mb-6">猜你喜欢</h2>';
-                        html += '<div class="scroll-container pb-4">';
-
-                        randomThree.forEach(collection => {
-                            const isExternalUrl = collection.cover && (collection.cover.startsWith('http://') || collection.cover.startsWith('https://'));
-                            const coverImage = collection.cover ?
-                                (isExternalUrl ? collection.cover : `/collections-static/images/${collection.cover.split('/').pop()}`) :
-                                '';
-
-                            html += `
-                                <a href="/collections-static/${collection.id}.html" class="ios-card p-4 block hover:shadow-ios-card transition-shadow scroll-item">
-                                    <div class="h-40 bg-gray-200 rounded-lg mb-4 overflow-hidden">
-                                        ${coverImage ? `<img src="${coverImage}" alt="${collection.title}" class="w-full h-full object-cover">` : ''}
-                                    </div>
-                                    <h3 class="font-semibold text-lg mb-1 truncate">${collection.title}</h3>
-                                    <p class="text-ios-gray text-sm truncate">${collection.description}</p>
-                                </a>
-                            `;
-                        });
-
-                        html += '</div>';
-                        randomCollectionsEl.innerHTML = html;
-                    }
-                })
-                .catch(error => console.error('Error fetching random collections:', error));
         });
     </script>
     </body>
