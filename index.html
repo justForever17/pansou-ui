@@ -454,10 +454,10 @@
     .matrix-column {
         position: absolute;
         top: -100%;
-        width: 15px; /* 列宽15px */
+        width: 30px; /* 列宽30px */
         height: 100%;
-        font-size: 14px; /* 字体适配列宽 */
-        line-height: 16px; /* 纵向字符间距 */
+        font-size: 16px; /* 字体适配列宽 */
+        line-height: 18px; /* 纵向字符间距 */
         font-weight: bold;
         animation: fall linear infinite;
         white-space: nowrap;
@@ -496,36 +496,27 @@
     }
 
     /* 关键修改：增加到30列定位，left间隔=列宽（15px），覆盖1920px屏幕 */
-    .matrix-column:nth-child(1) { left: 0px; animation-delay: -2.5s; animation-duration: 3s; }
-    .matrix-column:nth-child(2) { left: 15px; animation-delay: -3.2s; animation-duration: 4s; }
-    .matrix-column:nth-child(3) { left: 30px; animation-delay: -1.8s; animation-duration: 2.5s; }
-    .matrix-column:nth-child(4) { left: 45px; animation-delay: -2.9s; animation-duration: 3.5s; }
-    .matrix-column:nth-child(5) { left: 60px; animation-delay: -1.5s; animation-duration: 3s; }
-    .matrix-column:nth-child(6) { left: 75px; animation-delay: -3.8s; animation-duration: 4.5s; }
-    .matrix-column:nth-child(7) { left: 90px; animation-delay: -2.1s; animation-duration: 2.8s; }
-    .matrix-column:nth-child(8) { left: 105px; animation-delay: -2.7s; animation-duration: 3.2s; }
-    .matrix-column:nth-child(9) { left: 120px; animation-delay: -3.4s; animation-duration: 3.8s; }
-    .matrix-column:nth-child(10) { left: 135px; animation-delay: -1.9s; animation-duration: 2.7s; }
-    .matrix-column:nth-child(11) { left: 150px; animation-delay: -2.3s; animation-duration: 3.1s; }
-    .matrix-column:nth-child(12) { left: 165px; animation-delay: -3.6s; animation-duration: 4.2s; }
-    .matrix-column:nth-child(13) { left: 180px; animation-delay: -2.0s; animation-duration: 2.6s; }
-    .matrix-column:nth-child(14) { left: 195px; animation-delay: -3.1s; animation-duration: 3.6s; }
-    .matrix-column:nth-child(15) { left: 210px; animation-delay: -1.7s; animation-duration: 2.9s; }
-    .matrix-column:nth-child(16) { left: 225px; animation-delay: -3.5s; animation-duration: 4.1s; }
-    .matrix-column:nth-child(17) { left: 240px; animation-delay: -2.2s; animation-duration: 3.3s; }
-    .matrix-column:nth-child(18) { left: 255px; animation-delay: -3.7s; animation-duration: 4.3s; }
-    .matrix-column:nth-child(19) { left: 270px; animation-delay: -1.6s; animation-duration: 2.4s; }
-    .matrix-column:nth-child(20) { left: 285px; animation-delay: -3.0s; animation-duration: 3.4s; }
-    .matrix-column:nth-child(21) { left: 300px; animation-delay: -2.4s; animation-duration: 3.0s; }
-    .matrix-column:nth-child(22) { left: 315px; animation-delay: -3.3s; animation-duration: 4.4s; }
-    .matrix-column:nth-child(23) { left: 330px; animation-delay: -1.4s; animation-duration: 2.3s; }
-    .matrix-column:nth-child(24) { left: 345px; animation-delay: -2.8s; animation-duration: 3.7s; }
-    .matrix-column:nth-child(25) { left: 360px; animation-delay: -3.9s; animation-duration: 4.6s; }
-    .matrix-column:nth-child(26) { left: 375px; animation-delay: -2.6s; animation-duration: 3.9s; }
-    .matrix-column:nth-child(27) { left: 390px; animation-delay: -1.3s; animation-duration: 2.2s; }
-    .matrix-column:nth-child(28) { left: 405px; animation-delay: -3.0s; animation-duration: 3.8s; }
-    .matrix-column:nth-child(29) { left: 420px; animation-delay: -2.1s; animation-duration: 2.7s; }
-    .matrix-column:nth-child(30) { left: 435px; animation-delay: -3.5s; animation-duration: 4.0s; }
+    .matrix-column:nth-child(1) { left: 0%; animation-delay: -2.5s; animation-duration: 3s; }
+    .matrix-column:nth-child(2) { left: 5%; animation-delay: -3.2s; animation-duration: 4s; }
+    .matrix-column:nth-child(3) { left: 10%; animation-delay: -1.8s; animation-duration: 2.5s; }
+    .matrix-column:nth-child(4) { left: 15%; animation-delay: -2.9s; animation-duration: 3.5s; }
+    .matrix-column:nth-child(5) { left: 20%; animation-delay: -1.5s; animation-duration: 3s; }
+    .matrix-column:nth-child(6) { left: 25%; animation-delay: -3.8s; animation-duration: 4.5s; }
+    .matrix-column:nth-child(7) { left: 30%; animation-delay: -2.1s; animation-duration: 2.8s; }
+    .matrix-column:nth-child(8) { left: 35%; animation-delay: -2.7s; animation-duration: 3.2s; }
+    .matrix-column:nth-child(9) { left: 40%; animation-delay: -3.4s; animation-duration: 3.8s; }
+    .matrix-column:nth-child(10) { left: 45%; animation-delay: -1.9s; animation-duration: 2.7s; }
+    .matrix-column:nth-child(11) { left: 50%; animation-delay: -2.3s; animation-duration: 3.1s; }
+    .matrix-column:nth-child(12) { left: 55%; animation-delay: -3.6s; animation-duration: 4.2s; }
+    .matrix-column:nth-child(13) { left: 60%; animation-delay: -2.0s; animation-duration: 2.6s; }
+    .matrix-column:nth-child(14) { left: 65%; animation-delay: -3.1s; animation-duration: 3.6s; }
+    .matrix-column:nth-child(15) { left: 70%; animation-delay: -1.7s; animation-duration: 2.9s; }
+    .matrix-column:nth-child(16) { left: 75%; animation-delay: -3.5s; animation-duration: 4.1s; }
+    .matrix-column:nth-child(17) { left: 80%; animation-delay: -2.2s; animation-duration: 3.3s; }
+    .matrix-column:nth-child(18) { left: 85%; animation-delay: -3.7s; animation-duration: 4.3s; }
+    .matrix-column:nth-child(19) { left: 90%; animation-delay: -1.6s; animation-duration: 2.4s; }
+    .matrix-column:nth-child(19) { left: 95%; animation-delay: -1.6s; animation-duration: 2.4s; }
+    .matrix-column:nth-child(20) { left: 100%; animation-delay: -3.5s; animation-duration: 4.0s; }
 
     /* 奇偶列字符差异（保持不变） */
     .matrix-column:nth-child(odd)::before { content: "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン123456789"; }
